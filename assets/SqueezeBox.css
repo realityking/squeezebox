@@ -90,6 +90,12 @@
 }
 
 /* Shadows */
+#sbox-window.shadow {
+	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+	-moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+}
+
 .sbox-bg {
 	position: absolute;
 	width: 33px;
