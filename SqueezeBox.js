@@ -77,8 +77,12 @@ var SqueezeBox = {
 		});
 		this.win.setProperty('aria-expanded', 'false');
 		if (this.options.shadow) {
-			if ((Browser.safari && Browser.version >= 3)|| Browser.chrome) {
-				this.win.setStyle('-webkit-box-shadow', '0 0 10px rgba(0, 0, 0, 0.7)');
+			if (Browser.chrome
+			|| (Browser.safari && Browser.version >= 3)
+			|| (Browser.opera && Browser.version >= 10.5)
+			|| (Browser.firefox && Browser.version >= 3.5)
+			|| (Browser.ie && Browser.version >= 9)) {
+				this.win.addClass('shadow');
 			} else if (!Browser.ie6) {
 				var shadow = new Element('div', {'class': 'sbox-bg-wrap'}).inject(this.win);
 				var relay = function(e) {
@@ -127,9 +131,9 @@ var SqueezeBox = {
 
 		if (this.element != null) this.trash();
 		this.element = document.id(subject) || false;
-		
+
 		this.setOptions(Object.merge(this.presets, options || {}));
-		
+
 		if (this.element && this.options.parse) {
 			var obj = this.element.getProperty(this.options.parse);
 			if (obj && (obj = JSON.decode(obj, this.options.parseSecure))) this.setOptions(obj);
@@ -137,7 +141,7 @@ var SqueezeBox = {
 		this.url = ((this.element) ? (this.element.get('href')) : subject) || this.options.url || '';
 
 		this.assignOptions();
-		
+
 		var handler = handler || this.options.handler;
 		if (handler) return this.setContent(handler, this.parsers[handler].call(this, true));
 		var ret = false;
@@ -156,8 +160,8 @@ var SqueezeBox = {
 	},
 
 	assignOptions: function() {
-		this.overlay.set('class', this.options.classOverlay);
-		this.win.set('class', this.options.classWindow);
+		this.overlay.addClass(this.options.classOverlay);
+		this.win.addClass(this.options.classWindow);
 		if (Browser.ie6) this.win.addClass('sbox-window-ie6');
 	},
 
@@ -328,7 +332,6 @@ var SqueezeBox = {
 	handlers: new Hash(),
 
 	parsers: new Hash()
-
 };
 
 SqueezeBox.extend(new Events(function(){})).extend(new Options(function(){})).extend(new Chain(function(){}));
@@ -443,7 +446,6 @@ SqueezeBox.handlers.extend({
 	string: function(str) {
 		return str;
 	}
-
 });
 
 SqueezeBox.handlers.url = SqueezeBox.handlers.ajax;
