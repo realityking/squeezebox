@@ -266,7 +266,10 @@ var SqueezeBox = {
 	toggleLoading: function(state) {
 		this.isLoading = state;
 		this.win[(state) ? 'addClass' : 'removeClass']('sbox-loading');
-		if (state) this.fireEvent('onLoading', [this.win]);
+		if (state) {
+			this.win.setProperty('aria-busy', state);
+			this.fireEvent('onLoading', [this.win]);
+		}
 	},
 
 	toggleOverlay: function(state) {
