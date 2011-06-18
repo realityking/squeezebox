@@ -73,8 +73,10 @@ var SqueezeBox = {
 		});
 		this.win = new Element('div', {
 			id: 'sbox-window',
+			role: 'dialog',
 			styles: {display: 'none', zIndex: this.options.zIndex + 2}
 		});
+		this.win.setProperty('aria-hidden', 'true');
 		if (this.options.shadow) {
 			if (Browser.chrome
 			|| (Browser.safari && Browser.version >= 3)
@@ -93,7 +95,8 @@ var SqueezeBox = {
 			}
 		}
 		this.content = new Element('div', {id: 'sbox-content'}).inject(this.win);
-		this.closeBtn = new Element('a', {id: 'sbox-btn-close', href: '#'}).inject(this.win);
+		this.closeBtn = new Element('a', {id: 'sbox-btn-close', href: '#', role: 'button'}).inject(this.win);
+		this.closeBtn.setProperty('aria-controls', 'sbox-window');
 		this.fx = {
 			overlay: new Fx.Tween(this.overlay, Object.merge({
 				property: 'opacity',
@@ -169,6 +172,7 @@ var SqueezeBox = {
 		if (!this.isOpen || (stoppable && !Function.from(this.options.closable).call(this, e))) return this;
 		this.fx.overlay.start(0).chain(this.toggleOverlay.bind(this));
 		this.win.setStyle('display', 'none');
+		this.win.setProperty('aria-hidden', 'true');
 		this.fireEvent('onClose', [this.content]);
 		this.trash();
 		this.toggleListeners();
@@ -220,6 +224,7 @@ var SqueezeBox = {
 			this.toggleListeners(true);
 			this.resize(size, true);
 			this.isOpen = true;
+			this.win.setProperty('aria-hidden', 'false');
 			this.fireEvent('onOpen', [this.content]);
 		} else {
 			this.resize(size);
@@ -262,7 +267,10 @@ var SqueezeBox = {
 	toggleLoading: function(state) {
 		this.isLoading = state;
 		this.win[(state) ? 'addClass' : 'removeClass']('sbox-loading');
-		if (state) this.fireEvent('onLoading', [this.win]);
+		if (state) {
+			this.win.setProperty('aria-busy', state);
+			this.fireEvent('onLoading', [this.win]);
+		}
 	},
 
 	toggleOverlay: function(state) {
