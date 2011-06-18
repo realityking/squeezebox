@@ -45,6 +45,7 @@ var SqueezeBox = {
 		parse: false, // 'rel'
 		parseSecure: false,
 		shadow: true,
+		overlay: true,
 		document: null,
 		ajaxOptions: {}
 	},
@@ -274,13 +275,15 @@ var SqueezeBox = {
 	},
 
 	toggleOverlay: function(state) {
-		var full = this.doc.getSize().x;
-		this.overlay.setStyle('display', (state) ? '' : 'none');
-		this.doc.body[(state) ? 'addClass' : 'removeClass']('body-overlayed');
-		if (state) {
-			this.scrollOffset = this.doc.getWindow().getSize().x - full;
-		} else {
-			this.doc.body.setStyle('margin-right', '');
+		if (this.options.overlay) {
+			var full = this.doc.getSize().x;
+			this.overlay.setStyle('display', (state) ? '' : 'none');
+			this.doc.body[(state) ? 'addClass' : 'removeClass']('body-overlayed');
+			if (state) {
+				this.scrollOffset = this.doc.getWindow().getSize().x - full;
+			} else {
+				this.doc.body.setStyle('margin-right', '');
+			}
 		}
 	},
 
