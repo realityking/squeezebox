@@ -4,12 +4,12 @@
  * Allows to open various content as modal,
  * centered and animated box.
  *
- * Dependencies: MooTools 1.2 or newer
+ * Dependencies: MooTools 1.3 or newer
  *
  * Inspired by
  *  ... Lokesh Dhakar	- The original Lightbox v2
  *
- * @version		1.2
+ * @version		1.3
  *
  * @license		MIT-style license
  * @author		Harald Kirschner <mail [at] digitarald.de>
