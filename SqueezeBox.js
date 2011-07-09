@@ -164,7 +164,6 @@ var SqueezeBox = {
 	assignOptions: function() {
 		this.overlay.addClass(this.options.classOverlay);
 		this.win.addClass(this.options.classWindow);
-		if (Browser.ie6) this.win.addClass('sbox-window-ie6');
 	},
 
 	close: function(e) {

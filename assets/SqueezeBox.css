@@ -17,7 +17,6 @@
 	background-color: #000;
 	left: 0px;
 	top: 0px;
-	zoom: 1;
 }
 
 #sbox-window {
@@ -40,10 +39,6 @@
 	top: -15px;
 	background: url(closebox.png) no-repeat center;
 	border: none;
-}
-
-.sbox-window-ie6 #sbox-btn-close {
-	background-image: url(closebox.gif);
 }
 
 .sbox-loading #sbox-content {
@@ -82,10 +77,12 @@
 .body-overlayed {
 	overflow: hidden;
 }
+
 /* Hides flash (Firefox problem) and selects (IE) */
 .body-overlayed embed, .body-overlayed object, .body-overlayed select {
 	visibility: hidden;
 }
+
 #sbox-window embed, #sbox-window object, #sbox-window select {
 	visibility: visible;
 }
