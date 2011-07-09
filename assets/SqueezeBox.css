@@ -31,6 +31,10 @@
 	border-radius: 3px;
 }
 
+#sbox-window[aria-hidden=true] {
+	display: none;
+}
+
 #sbox-btn-close {
 	position: absolute;
 	width: 30px;

@@ -75,9 +75,9 @@ var SqueezeBox = {
 		this.win = new Element('div', {
 			id: 'sbox-window',
 			role: 'dialog',
-			styles: {display: 'none', zIndex: this.options.zIndex + 2}
+			'aria-hidden': 'true',
+			styles: {zIndex: this.options.zIndex + 2}
 		});
-		this.win.setProperty('aria-hidden', 'true');
 		if (this.options.shadow) {
 			if (Browser.chrome
 			|| (Browser.safari && Browser.version >= 3)
@@ -171,7 +171,6 @@ var SqueezeBox = {
 		if (stoppable) e.stop();
 		if (!this.isOpen || (stoppable && !Function.from(this.options.closable).call(this, e))) return this;
 		this.fx.overlay.start(0).chain(this.toggleOverlay.bind(this));
-		this.win.setStyle('display', 'none');
 		this.win.setProperty('aria-hidden', 'true');
 		this.fireEvent('onClose', [this.content]);
 		this.trash();
@@ -250,7 +249,7 @@ var SqueezeBox = {
 		if (!instantly) {
 			this.fx.win.start(to).chain(this.showContent.bind(this));
 		} else {
-			this.win.setStyles(to).setStyle('display', '');
+			this.win.setStyles(to);
 			this.showTimer = this.showContent.delay(50, this);
 		}
 		return this.reposition();
