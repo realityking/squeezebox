@@ -70,7 +70,8 @@ var SqueezeBox = {
 	build: function() {
 		this.overlay = new Element('div', {
 			id: 'sbox-overlay',
-			styles: {display: 'none', zIndex: this.options.zIndex}
+			'aria-hidden': 'true',
+			styles: { zIndex: this.options.zIndex}
 		});
 		this.win = new Element('div', {
 			id: 'sbox-window',
@@ -275,7 +276,7 @@ var SqueezeBox = {
 	toggleOverlay: function(state) {
 		if (this.options.overlay) {
 			var full = this.doc.getSize().x;
-			this.overlay.setStyle('display', (state) ? '' : 'none');
+			this.overlay.set('aria-hidden', (state) ? 'false' : 'true');
 			this.doc.body[(state) ? 'addClass' : 'removeClass']('body-overlayed');
 			if (state) {
 				this.scrollOffset = this.doc.getWindow().getSize().x - full;

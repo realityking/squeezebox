@@ -31,7 +31,8 @@
 	border-radius: 3px;
 }
 
-#sbox-window[aria-hidden=true] {
+#sbox-window[aria-hidden=true],
+#sbox-overlay[aria-hidden=true] {
 	display: none;
 }
 
