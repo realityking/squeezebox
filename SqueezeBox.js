@@ -52,7 +52,6 @@ var SqueezeBox = {
 
 	initialize: function(presets) {
 		if (this.options) return this;
-
 		this.presets = Object.merge(this.presets, presets);
 		this.doc = this.presets.document || document;
 		this.options = {};
@@ -64,6 +63,7 @@ var SqueezeBox = {
 			key: this.onKey.bind(this)
 		};
 		this.isOpen = this.isLoading = false;
+
 		return this;
 	},
 
@@ -100,12 +100,6 @@ var SqueezeBox = {
 		this.closeBtn = new Element('a', {id: 'sbox-btn-close', href: '#', role: 'button'}).inject(this.win);
 		this.closeBtn.setProperty('aria-controls', 'sbox-window');
 		this.fx = {
-			overlay: new Fx.Tween(this.overlay, Object.merge({
-				property: 'opacity',
-				onStart: Events.prototype.clearChain,
-				duration: 250,
-				link: 'cancel'
-			}, this.options.overlayFx)).set(0),
 			win: new Fx.Morph(this.win, Object.merge({
 				onStart: Events.prototype.clearChain,
 				unit: 'px',
@@ -120,6 +114,7 @@ var SqueezeBox = {
 				link: 'cancel'
 			}, this.options.contentFx)).set(0)
 		};
+
 		document.id(this.doc.body).adopt(this.overlay, this.win);
 	},
 
@@ -171,7 +166,7 @@ var SqueezeBox = {
 		var stoppable = (typeOf(e) == 'event');
 		if (stoppable) e.stop();
 		if (!this.isOpen || (stoppable && !Function.from(this.options.closable).call(this, e))) return this;
-		this.fx.overlay.start(0).chain(this.toggleOverlay.bind(this));
+		this.toggleOverlay();
 		this.win.setProperty('aria-hidden', 'true');
 		this.fireEvent('onClose', [this.content]);
 		this.trash();
@@ -195,10 +190,9 @@ var SqueezeBox = {
 	setContent: function(handler, content) {
 		if (!this.handlers[handler]) return false;
 		this.content.className = 'sbox-content-' + handler;
-		this.applyTimer = this.applyContent.delay(this.fx.overlay.options.duration, this, this.handlers[handler].call(this, content));
+		this.applyTimer = this.applyContent.delay(400, this, this.handlers[handler].call(this, content));
 		if (this.overlay.retrieve('opacity')) return this;
 		this.toggleOverlay(true);
-		this.fx.overlay.start(this.options.overlayOpacity);
 		return this.reposition();
 	},
 
@@ -276,13 +270,23 @@ var SqueezeBox = {
 	toggleOverlay: function(state) {
 		if (this.options.overlay) {
 			var full = this.doc.getSize().x;
-			this.overlay.set('aria-hidden', (state) ? 'false' : 'true');
-			this.doc.body[(state) ? 'addClass' : 'removeClass']('body-overlayed');
+
 			if (state) {
+				this.overlay.set('aria-hidden', 'false');
+				window.setTimeout(function() {
+					this.overlay.addClass('visible');
+				}.bind(this), 0);
+
 				this.scrollOffset = this.doc.getWindow().getSize().x - full;
 			} else {
+				this.overlay.removeClass('visible');
+				window.setTimeout(function() {
+					this.overlay.set('aria-hidden', 'true');
+				}.bind(this), 800);
+
 				this.doc.body.setStyle('margin-right', '');
 			}
+			this.doc.body[(state) ? 'addClass' : 'removeClass']('body-overlayed');
 		}
 	},
 
