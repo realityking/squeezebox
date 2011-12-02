@@ -345,7 +345,7 @@ SqueezeBox.extend(new Events(function(){})).extend(new Options(function(){})).ex
 SqueezeBox.parsers.extend({
 
 	image: function(preset) {
-		return (preset || (/\.(?:jpg|png|gif)$/i).test(this.url)) ? this.url : false;
+		return (preset || (/\.(?:jpe?g|png|gif)$/i).test(this.url)) ? this.url : false;
 	},
 
 	clone: function(preset) {
