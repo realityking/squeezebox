@@ -364,7 +364,7 @@ SqueezeBox.parsers.extend({
 	},
 
 	string: function(preset) {
-		return true;
+		return (preset || this.options.content) ? this.options.content : false;
 	}
 });
 
@@ -450,6 +450,7 @@ SqueezeBox.handlers.extend({
 	},
 
 	string: function(str) {
+		this.applyContent(str);
 		return str;
 	}
 });
